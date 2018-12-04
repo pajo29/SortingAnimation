@@ -1,29 +1,29 @@
 package main;
 
-import sortPanel.view.SortPanelView;
+import sortPanel.SortPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MainFrame extends JFrame
 {
     private static MainFrame instance = null;
 
-    private SortPanelView sortPanelOne;
-    private SortPanelView sortPanelTwo;
+    private SortPanel sortPanelOne;
+    private SortPanel sortPanelTwo;
 
     private JButton populateArrayButton;
     private JButton sortButton;
 
     private MainFrame()
     {
-
+        super("Sorting animation");
     }
 
     private void initialise()
     {
         populateArrayButton = new JButton("Populate array");
         sortButton = new JButton("Sort");
+        sortButton.setEnabled(false);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(populateArrayButton);
@@ -32,8 +32,8 @@ public class MainFrame extends JFrame
 
         JPanel sortPanel = new JPanel();
         sortPanel.setLayout(new BoxLayout(sortPanel, BoxLayout.LINE_AXIS));
-        sortPanelOne = new SortPanelView();
-        sortPanelTwo = new SortPanelView();
+        sortPanelOne = new SortPanel();
+        sortPanelTwo = new SortPanel();
         sortPanel.add(sortPanelOne);
         sortPanel.add(sortPanelTwo);
 
@@ -49,9 +49,8 @@ public class MainFrame extends JFrame
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
-        setTitle("Project");
         setVisible(true);
     }
 
