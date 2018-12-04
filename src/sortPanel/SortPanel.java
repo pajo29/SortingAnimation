@@ -1,7 +1,6 @@
 package sortPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class SortPanel extends JPanel
 {
