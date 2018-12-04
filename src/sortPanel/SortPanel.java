@@ -5,25 +5,24 @@ import javax.swing.*;
 public class SortPanel extends JPanel
 {
     private JButton pauseButton;
-    private JButton stopButton;
 
     private JComboBox<String> sortStyleComboBox;
-    private String[] sortStyle = {"Forwad", "Backward"};
+    private String[] sortStyle = {"Ascending", "Descending"};
 
     private JComboBox<String> sortComboBox;
     private String[] sortOptions = {"Quick sort", "Bubble sort", "Mesh sort"};
 
     private JComboBox<String> sortingSpeedComboBox;
-    private String[] sortingSpeed = {"100ms", "300ms", "500ms", "1000ms"};
+    private String[] sortingSpeed = {"Fast", "Medium", "Slow"};
 
     private SortAnimationPanel sortAnimation;
+
+    private int[] array;
 
     public SortPanel()
     {
         pauseButton = new JButton("Pause");
         pauseButton.setEnabled(false);
-        stopButton = new JButton("Stop");
-        stopButton.setEnabled(false);
 
         sortComboBox = new JComboBox<String>(sortOptions);
         sortStyleComboBox = new JComboBox<String>(sortStyle);
@@ -42,8 +41,13 @@ public class SortPanel extends JPanel
         panelTwo.add(sortStyleComboBox);
         panelTwo.add(sortingSpeedComboBox);
         panelTwo.add(pauseButton);
-        panelTwo.add(stopButton);
         add(panelOne);
         add(panelTwo);
+    }
+
+    public void setArray(int[] array)
+    {
+        this.array = array;
+
     }
 }
