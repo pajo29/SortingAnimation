@@ -1,6 +1,7 @@
 package sortPanel;
 
 import com.sun.corba.se.impl.orbutil.graph.Graph;
+import main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +11,16 @@ public class SortAnimationPanel extends JPanel implements Runnable
 
     private int[] array = null;
 
-    private Graphics g;
+    private SortPanel sp;
+
+    private Thread thread;
 
     /*
     Initialises the SortingAnimationPanel and sets its size
      */
-    public SortAnimationPanel()
+    public SortAnimationPanel(SortPanel sp)
     {
+        this.sp = sp;
         setPreferredSize(new Dimension(400, 400));
         setMinimumSize(new Dimension(400, 400));
         setMaximumSize(new Dimension(400, 400));
@@ -43,16 +47,49 @@ public class SortAnimationPanel extends JPanel implements Runnable
         }
     }
 
-
     @Override
     public void run()
     {
 
+        try
+        {
+            sp.sort();
+        } catch (InterruptedException e)
+        {
+
+        }
+    }
+
+    public void start(String name)
+    {
+        thread = new Thread(this, name);
+
+        thread.start();
+    }
+
+    public Thread getThread()
+    {
+        return thread;
+    }
+
+    private static boolean paused = false;
+
+    public void pauseAnimation()
+    {
+        if(!paused)
+        {
+            paused = true;
+        }
+        else
+        {
+            start(thread.getName());
+            paused = false;
+        }
     }
 
     /*
-    Sets the array to be used and repaints the panel accordingly
-     */
+        Sets the array to be used and repaints the panel accordingly
+         */
     public void setArray(int[] array) {
         this.array = array;
         this.repaint();

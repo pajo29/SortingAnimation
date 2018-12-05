@@ -19,6 +19,9 @@ public class MainFrame extends JFrame
     private JButton populateArrayButton;
     private JButton sortButton;
     private JButton stopButton;
+    private JButton pauseButton;
+
+    private int iterationCounter = 0;
 
     /*
     Private constructor for Singleton patter, where we set the title of the frame
@@ -38,17 +41,18 @@ public class MainFrame extends JFrame
 
         sortButton = new JButton("Sort");
         sortButton.setEnabled(false);
-        sortButton.addActionListener(e ->
-        {
-            ArraySorter.quickSort(populateArray());
-        });
+
         stopButton = new JButton("Stop");
         stopButton.setEnabled(false);
+
+        pauseButton = new JButton("Pause");
+        pauseButton.setEnabled(false);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(populateArrayButton);
         buttonPanel.add(sortButton);
         buttonPanel.add(stopButton);
+        buttonPanel.add(pauseButton);
 
 
         JPanel sortPanel = new JPanel();
@@ -73,6 +77,29 @@ public class MainFrame extends JFrame
 
         populateArrayButton.addActionListener(new PopulateButtonActionListener());
 
+        sortButton.addActionListener(e ->
+        {
+            sortPanelOne.getSortAnimation().start("Thread one");
+            sortPanelTwo.getSortAnimation().start("Thread two");
+            sortButton.setEnabled(false);
+        });
+
+        pauseButton.addActionListener(e ->
+        {   MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
+            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
+            MainFrame.getInstance().getSortPanelOne().getSortAnimation().pauseAnimation();
+            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().pauseAnimation();
+        });
+
+        stopButton.addActionListener(e -> {
+            MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
+            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
+            getPauseButton().setEnabled(false);
+            getPopulateArrayButton().setEnabled(true);
+            getSortButton().setEnabled(false);
+            getStopButton().setEnabled(false);
+        });
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1000, 600);
         setLocationRelativeTo(null);
@@ -91,6 +118,22 @@ public class MainFrame extends JFrame
 
         }
         return array;
+    }
+
+    public void returnToStartState()
+    {
+        if(++iterationCounter == 2)
+        {
+            getPauseButton().setEnabled(false);
+            getPopulateArrayButton().setEnabled(true);
+            getSortButton().setEnabled(false);
+            getStopButton().setEnabled(false);
+        }
+    }
+
+    public void setIterationCounter(int iterationCounter)
+    {
+        this.iterationCounter = iterationCounter;
     }
 
     public static MainFrame getInstance()
@@ -122,5 +165,10 @@ public class MainFrame extends JFrame
 
     public JButton getSortButton() {
         return sortButton;
+    }
+
+    public JButton getPauseButton()
+    {
+        return pauseButton;
     }
 }

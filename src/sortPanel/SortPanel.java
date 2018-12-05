@@ -5,13 +5,11 @@ import java.awt.*;
 
 public class SortPanel extends JPanel
 {
-    private JButton pauseButton;
-
     private JComboBox<String> sortStyleComboBox;
     private String[] sortStyle = {"Ascending", "Descending"};
 
     private JComboBox<String> sortComboBox;
-    private String[] sortOptions = {"Quick sort", "Bubble sort", "Mesh sort"};
+    private String[] sortOptions = {"Quick sort", "Bubble sort", "Merge sort"};
 
     private JComboBox<String> sortingSpeedComboBox;
     private String[] sortingSpeed = {"Fast", "Medium", "Slow"};
@@ -28,9 +26,6 @@ public class SortPanel extends JPanel
      */
     public SortPanel()
     {
-        pauseButton = new JButton("Pause");
-        pauseButton.setEnabled(false);
-
         sortComboBox = new JComboBox<>(sortOptions);
         sortStyleComboBox = new JComboBox<>(sortStyle);
         sortingSpeedComboBox = new JComboBox<>(sortingSpeed);
@@ -38,7 +33,7 @@ public class SortPanel extends JPanel
         panelOne = new JPanel();
         panelTwo = new JPanel();
 
-        sortAnimation = new SortAnimationPanel();
+        sortAnimation = new SortAnimationPanel(this);
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -47,9 +42,50 @@ public class SortPanel extends JPanel
         panelTwo.add(sortComboBox);
         panelTwo.add(sortStyleComboBox);
         panelTwo.add(sortingSpeedComboBox);
-        panelTwo.add(pauseButton);
         add(panelOne);
         add(panelTwo);
+
+    }
+
+    /*
+    Begins sorting and starts the animation
+     */
+    public void sort() throws InterruptedException
+    {
+        ArraySorter as = new ArraySorter(this);
+        switch (sortingSpeedComboBox.getSelectedIndex())
+        {
+            case 0:
+                as.setSleepTime(10);
+                break;
+            case 1:
+                as.setSleepTime(50);
+                break;
+            case 2:
+                as.setSleepTime(100);
+                break;
+        }
+        switch (sortComboBox.getSelectedIndex())
+        {
+            case 0:
+                if(sortStyleComboBox.getSelectedIndex() == 0)
+                    as.quickSort(array, true);
+                else
+                    as.quickSort(array, false);
+                break;
+            case 1:
+                if(sortStyleComboBox.getSelectedIndex() == 0)
+                    as.bubbleSort(array, true);
+                else
+                    as.bubbleSort(array, false);
+                break;
+            case 2:
+                if(sortStyleComboBox.getSelectedIndex() == 0)
+                    as.mergeSort(array, true);
+                else
+                    as.mergeSort(array, false);
+                break;
+        }
     }
 
     /*
@@ -61,7 +97,13 @@ public class SortPanel extends JPanel
         sortAnimation.setArray(array);
     }
 
-    public JButton getPauseButton() {
-        return pauseButton;
+    public SortAnimationPanel getSortAnimation()
+    {
+        return sortAnimation;
+    }
+
+    public int[] getArray()
+    {
+        return array;
     }
 }
