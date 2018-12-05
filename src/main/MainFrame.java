@@ -1,5 +1,6 @@
 package main;
 
+import sortPanel.ArraySorter;
 import sortPanel.SortPanel;
 
 import javax.swing.*;
@@ -7,6 +8,9 @@ import java.util.Random;
 
 public class MainFrame extends JFrame
 {
+    /*
+    Class MainFrame uses Singleton Pattern, instance is used to initialise the class and later to access the same instance.
+     */
     private static MainFrame instance = null;
 
     private SortPanel sortPanelOne;
@@ -16,13 +20,17 @@ public class MainFrame extends JFrame
     private JButton sortButton;
     private JButton stopButton;
 
-    int[] array;
-
+    /*
+    Private constructor for Singleton patter, where we set the title of the frame
+     */
     private MainFrame()
     {
         super("Sorting animation");
     }
 
+    /*
+    Method initialise creates neccessary buttons, panels and initialises the sortPanels.
+     */
     private void initialise()
     {
         populateArrayButton = new JButton("Populate array");
@@ -30,6 +38,10 @@ public class MainFrame extends JFrame
 
         sortButton = new JButton("Sort");
         sortButton.setEnabled(false);
+        sortButton.addActionListener(e ->
+        {
+            ArraySorter.quickSort(populateArray());
+        });
         stopButton = new JButton("Stop");
         stopButton.setEnabled(false);
 
@@ -59,20 +71,24 @@ public class MainFrame extends JFrame
 
         add(mainPanel);
 
+        populateArrayButton.addActionListener(new PopulateButtonActionListener());
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1000, 600);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    private int[] populateArray()
+    /*
+    Method populateArray is used to make a random array to be sorted later.
+     */
+    public int[] populateArray()
     {
         Random random = new Random();
         int[] array = new int[400];
-        for(int i = 0; i < 400; i++)
-        {
+        for(int i = 0; i < 400; i++) {
             array[i] = random.nextInt(400) + 1;
-            System.out.println(array[i]);
+
         }
         return array;
     }
@@ -85,5 +101,26 @@ public class MainFrame extends JFrame
             instance.initialise();
         }
         return instance;
+    }
+
+    public SortPanel getSortPanelOne() {
+        return sortPanelOne;
+    }
+
+    public SortPanel getSortPanelTwo() {
+        return sortPanelTwo;
+    }
+
+
+    public JButton getPopulateArrayButton() {
+        return populateArrayButton;
+    }
+
+    public JButton getStopButton() {
+        return stopButton;
+    }
+
+    public JButton getSortButton() {
+        return sortButton;
     }
 }

@@ -1,6 +1,7 @@
 package sortPanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class SortPanel extends JPanel
 {
@@ -17,19 +18,25 @@ public class SortPanel extends JPanel
 
     private SortAnimationPanel sortAnimation;
 
+    private JPanel panelOne;
+    private JPanel panelTwo;
+
     private int[] array;
 
+    /*
+    Initialises the SortPanel, adds required buttons, comboBoxes and panels to match the requierment
+     */
     public SortPanel()
     {
         pauseButton = new JButton("Pause");
         pauseButton.setEnabled(false);
 
-        sortComboBox = new JComboBox<String>(sortOptions);
-        sortStyleComboBox = new JComboBox<String>(sortStyle);
-        sortingSpeedComboBox = new JComboBox<String>(sortingSpeed);
+        sortComboBox = new JComboBox<>(sortOptions);
+        sortStyleComboBox = new JComboBox<>(sortStyle);
+        sortingSpeedComboBox = new JComboBox<>(sortingSpeed);
 
-        JPanel panelOne = new JPanel();
-        JPanel panelTwo = new JPanel();
+        panelOne = new JPanel();
+        panelTwo = new JPanel();
 
         sortAnimation = new SortAnimationPanel();
 
@@ -45,9 +52,16 @@ public class SortPanel extends JPanel
         add(panelTwo);
     }
 
+    /*
+    Sets the array to be used and initialises repainting of the SortAnimationPanel so it matches the array
+     */
     public void setArray(int[] array)
     {
         this.array = array;
+        sortAnimation.setArray(array);
+    }
 
+    public JButton getPauseButton() {
+        return pauseButton;
     }
 }
