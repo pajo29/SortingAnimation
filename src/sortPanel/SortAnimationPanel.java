@@ -72,20 +72,6 @@ public class SortAnimationPanel extends JPanel implements Runnable
         return thread;
     }
 
-    private static boolean paused = false;
-
-    public void pauseAnimation()
-    {
-        if(!paused)
-        {
-            paused = true;
-        }
-        else
-        {
-            start(thread.getName());
-            paused = false;
-        }
-    }
 
     /*
         Sets the array to be used and repaints the panel accordingly

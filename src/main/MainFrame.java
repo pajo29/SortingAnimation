@@ -23,6 +23,8 @@ public class MainFrame extends JFrame
 
     private int iterationCounter = 0;
 
+    private static boolean paused = false;
+
     /*
     Private constructor for Singleton patter, where we set the title of the frame
      */
@@ -85,10 +87,19 @@ public class MainFrame extends JFrame
         });
 
         pauseButton.addActionListener(e ->
-        {   MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
-            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
-            MainFrame.getInstance().getSortPanelOne().getSortAnimation().pauseAnimation();
-            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().pauseAnimation();
+        {
+            if(!paused)
+            {
+                MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
+                MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
+                paused = true;
+            }
+            else
+            {
+                MainFrame.getInstance().getSortPanelOne().getSortAnimation().start("Thread one");
+                MainFrame.getInstance().getSortPanelTwo().getSortAnimation().start("Thread two");
+                paused = false;
+            }
         });
 
         stopButton.addActionListener(e -> {
