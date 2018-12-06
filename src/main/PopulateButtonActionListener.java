@@ -21,9 +21,8 @@ public class PopulateButtonActionListener implements ActionListener
             arrayTwo[i] = arrayOne[i];
         MainFrame.getInstance().getSortPanelOne().setArray(arrayOne);
         MainFrame.getInstance().getSortPanelTwo().setArray(arrayTwo);
-        MainFrame.getInstance().getPauseButton().setEnabled(true);
+
         MainFrame.getInstance().getPopulateArrayButton().setEnabled(false);
         MainFrame.getInstance().getSortButton().setEnabled(true);
-        MainFrame.getInstance().getStopButton().setEnabled(true);
     }
 }

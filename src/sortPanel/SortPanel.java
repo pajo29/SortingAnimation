@@ -2,6 +2,7 @@ package sortPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class SortPanel extends JPanel
 {
@@ -34,6 +35,17 @@ public class SortPanel extends JPanel
         panelTwo = new JPanel();
 
         sortAnimation = new SortAnimationPanel(this);
+
+        sortStyleComboBox.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent)
+            {
+                sortAnimation.getThread().interrupt();
+                sortAnimation.start("Thread I");
+                System.out.println("Usao");
+            }
+        });
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -95,6 +107,16 @@ public class SortPanel extends JPanel
     {
         this.array = array;
         sortAnimation.setArray(array);
+    }
+
+    public JComboBox<String> getSortComboBox()
+    {
+        return sortComboBox;
+    }
+
+    public JComboBox<String> getSortingSpeedComboBox()
+    {
+        return sortingSpeedComboBox;
     }
 
     public SortAnimationPanel getSortAnimation()

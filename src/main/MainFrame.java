@@ -84,31 +84,35 @@ public class MainFrame extends JFrame
             sortPanelOne.getSortAnimation().start("Thread one");
             sortPanelTwo.getSortAnimation().start("Thread two");
             sortButton.setEnabled(false);
+            getPauseButton().setEnabled(true);
+            getStopButton().setEnabled(true);
+            getSortPanelOne().getSortComboBox().setEnabled(false);
+            getSortPanelOne().getSortingSpeedComboBox().setEnabled(false);
+            getSortPanelTwo().getSortComboBox().setEnabled(false);
+            getSortPanelTwo().getSortingSpeedComboBox().setEnabled(false);
         });
 
         pauseButton.addActionListener(e ->
         {
             if(!paused)
             {
-                MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
-                MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
+                getSortPanelOne().getSortAnimation().getThread().interrupt();
+                getSortPanelTwo().getSortAnimation().getThread().interrupt();
                 paused = true;
             }
             else
             {
-                MainFrame.getInstance().getSortPanelOne().getSortAnimation().start("Thread one");
-                MainFrame.getInstance().getSortPanelTwo().getSortAnimation().start("Thread two");
+                getSortPanelOne().getSortAnimation().start("Thread one");
+                getSortPanelTwo().getSortAnimation().start("Thread two");
                 paused = false;
             }
         });
 
         stopButton.addActionListener(e -> {
-            MainFrame.getInstance().getSortPanelOne().getSortAnimation().getThread().interrupt();
-            MainFrame.getInstance().getSortPanelTwo().getSortAnimation().getThread().interrupt();
-            getPauseButton().setEnabled(false);
-            getPopulateArrayButton().setEnabled(true);
-            getSortButton().setEnabled(false);
-            getStopButton().setEnabled(false);
+            getSortPanelOne().getSortAnimation().getThread().interrupt();
+            getSortPanelTwo().getSortAnimation().getThread().interrupt();
+            iterationCounter = 1;
+            returnToStartState();
         });
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -139,6 +143,10 @@ public class MainFrame extends JFrame
             getPopulateArrayButton().setEnabled(true);
             getSortButton().setEnabled(false);
             getStopButton().setEnabled(false);
+            getSortPanelOne().getSortComboBox().setEnabled(true);
+            getSortPanelOne().getSortingSpeedComboBox().setEnabled(true);
+            getSortPanelTwo().getSortComboBox().setEnabled(true);
+            getSortPanelTwo().getSortingSpeedComboBox().setEnabled(true);
         }
     }
 
