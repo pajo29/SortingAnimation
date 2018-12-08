@@ -14,6 +14,7 @@ public class SortAnimationPanel extends JPanel implements Runnable
     private SortPanel sp;
 
     private Thread thread;
+    private boolean threadRunning = false;
 
     /*
     Initialises the SortingAnimationPanel and sets its size
@@ -62,8 +63,8 @@ public class SortAnimationPanel extends JPanel implements Runnable
 
     public void start(String name)
     {
-        thread = new Thread(this, name);
-
+            thread = new Thread(this, name);
+        threadRunning = true;
         thread.start();
     }
 
@@ -72,10 +73,24 @@ public class SortAnimationPanel extends JPanel implements Runnable
         return thread;
     }
 
+    public void setThreadRunning(boolean threadRunning)
+    {
+        this.threadRunning = threadRunning;
+    }
+
+    public boolean isThreadRunning()
+    {
+        return threadRunning;
+    }
+
+    public void setThread(Thread thread)
+    {
+        this.thread = thread;
+    }
 
     /*
-        Sets the array to be used and repaints the panel accordingly
-         */
+            Sets the array to be used and repaints the panel accordingly
+             */
     public void setArray(int[] array) {
         this.array = array;
         this.repaint();

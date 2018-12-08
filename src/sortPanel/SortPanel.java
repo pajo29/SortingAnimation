@@ -22,11 +22,15 @@ public class SortPanel extends JPanel
 
     private int[] array;
 
+    private static boolean running = false;
+
+    private ArraySorter as;
     /*
     Initialises the SortPanel, adds required buttons, comboBoxes and panels to match the requierment
      */
     public SortPanel()
     {
+        as = new ArraySorter(this);
         sortComboBox = new JComboBox<>(sortOptions);
         sortStyleComboBox = new JComboBox<>(sortStyle);
         sortingSpeedComboBox = new JComboBox<>(sortingSpeed);
@@ -41,9 +45,12 @@ public class SortPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent actionEvent)
             {
-                sortAnimation.getThread().interrupt();
-                sortAnimation.start("Thread I");
-                System.out.println("Usao");
+                if(running)
+                {
+                    sortAnimation.getThread().interrupt();
+                    sortAnimation.start("Thread I");
+                }
+
             }
         });
 
@@ -64,7 +71,7 @@ public class SortPanel extends JPanel
      */
     public void sort() throws InterruptedException
     {
-        ArraySorter as = new ArraySorter(this);
+
         switch (sortingSpeedComboBox.getSelectedIndex())
         {
             case 0:
@@ -119,13 +126,28 @@ public class SortPanel extends JPanel
         return sortingSpeedComboBox;
     }
 
+    public JComboBox<String> getSortStyleComboBox()
+    {
+        return sortStyleComboBox;
+    }
+
     public SortAnimationPanel getSortAnimation()
     {
         return sortAnimation;
     }
 
+    public static void setRunning(boolean running)
+    {
+        SortPanel.running = running;
+    }
+
     public int[] getArray()
     {
         return array;
+    }
+
+    public ArraySorter getAs()
+    {
+        return as;
     }
 }

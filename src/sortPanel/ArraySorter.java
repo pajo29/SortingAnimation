@@ -19,8 +19,9 @@ public class ArraySorter
     private int sleepTime = 0;
     private void update(int[] array) throws InterruptedException
     {
-        sp.setArray(array);
-        sp.getSortAnimation().getThread().sleep(sleepTime);
+            sp.setArray(array);
+            sp.getSortAnimation().getThread().sleep(1);
+
     }
 
     public void setSleepTime(int sleepTime)
@@ -30,17 +31,26 @@ public class ArraySorter
 
     private void returnToStartState()
     {
+        sp.getSortAnimation().setThreadRunning(false);
         MainFrame.getInstance().returnToStartState();
+        MainFrame.getInstance().getSortPanelOne().setRunning(false);
+        MainFrame.getInstance().getSortPanelTwo().setRunning(false);
     }
+
+    private int i = 0;
+    private int j = 0;
+
 
     public int[] bubbleSort(int[] array, boolean ascending) throws InterruptedException
     {
         int n = array.length;
         int temp = 0;
-        for(int i = 0; i <= n; i++)
+        for(; i <= n; i++)
         {
-            for(int j = 1; j <= (n - 1); j++)
+            for(; j <= (n - 1); j++)
             {
+                if(j == 0)
+                    j++;
                 if(ascending)
                 {
                     if (array[j - 1] > array [j])
@@ -63,7 +73,11 @@ public class ArraySorter
                 }
                 update(array);
             }
+            j = 0;
         }
+
+        i = 0;
+        j = 0;
 
         returnToStartState();
         return array;
