@@ -20,7 +20,7 @@ public class ArraySorter
     private void update(int[] array) throws InterruptedException
     {
             sp.setArray(array);
-            sp.getSortAnimation().getThread().sleep(1);
+            sp.getSortAnimation().getThread().sleep(sleepTime);
 
     }
 
